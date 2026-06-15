@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.npm/
+.yarn/
+
+# Package archives
+*.zip
+*.tar.gz
+*.tgz
+
+# Build artifacts
+dist/
+build/
+out/
+*.min.js
+*.bundle.js
+
+# Cache and temp
+.cache/
+.tmp/
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Secrets (NEVER commit)
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.*
+secrets.*
+auth*.json
+*token*.json
+.npmrc
+.pypirc
+.netrc
