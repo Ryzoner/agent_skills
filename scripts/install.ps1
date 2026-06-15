@@ -111,25 +111,53 @@ if (Test-Path $srcExamples) {
 }
 
 # 6. npm install dlya skilov s package.json
-Write-Host "[6] Proveryayu npm-zavisimosti skilov..." -ForegroundColor Yellow
+# [6] Proverka Node.js versii i npm install dlya skilov s package.json
+Write-Host "[6] Proveryayu Node.js + npm-zavisimosti skilov..." -ForegroundColor Yellow
+
+$nodeMinOk = $true
+$node = Get-Command node -ErrorAction SilentlyContinue
+if ($null -ne $node) {
+    $nodeVersion = (& node -v) -replace "v", ""
+    $nodeMajor = 0
+    if ($nodeVersion -match "^(\d+)") { $nodeMajor = [int]$Matches[1] }
+    if ($nodeMajor -lt 18) {
+        $nodeMinOk = $false
+        Write-Host "    [!] Node.js v$nodeVersion < 18 - nekotorye skilly (archify) mogut ne rabotat'" -ForegroundColor Yellow
+    } else {
+        Write-Host "    [OK] Node.js v$nodeVersion >= 18" -ForegroundColor Green
+    }
+} else {
+    $nodeMinOk = $false
+    Write-Host "    [!] Node.js ne nayden" -ForegroundColor Yellow
+}
+
 $npm = Get-Command npm -ErrorAction SilentlyContinue
 Get-ChildItem -Path $SKILLS_DEST -Directory | Where-Object { Test-Path (Join-Path $_.FullName "package.json") } | ForEach-Object {
     $skillDir = $_.FullName
-    if (-not (Test-Path (Join-Path $skillDir "node_modules"))) {
-        if ($null -ne $npm) {
-            Write-Host "    -> $($_.Name) (npm install)" -ForegroundColor Yellow
-            try {
-                Push-Location $skillDir
-                & npm install --no-audit --no-fund --silent 2>&1 | Out-Null
-                Pop-Location
-                Write-Host "       [OK] $($_.Name) gotov" -ForegroundColor Green
-            } catch {
-                Pop-Location -ErrorAction SilentlyContinue
-                Write-Host "       [!] $($_.Name): npm install ne udalsya (propuskayu, skill rabotaet bez zavisimostey)" -ForegroundColor Yellow
+    if (Test-Path (Join-Path $skillDir "node_modules")) {
+        Write-Host "    [OK] $($_.Name): node_modules uzhe est (propuskayu)" -ForegroundColor Green
+        return
+    }
+    if ($null -ne $npm) {
+        Write-Host "    -> $($_.Name) (npm install)" -ForegroundColor Yellow
+        $installLog = Join-Path $env:TEMP ("npm-install-" + $_.Name + "-" + [guid]::NewGuid().ToString("N").Substring(0, 8) + ".log")
+        try {
+            Push-Location $skillDir
+            $output = & npm install --no-audit --no-fund --loglevel=error 2>&1
+            $exitCode = $LASTEXITCODE
+            Pop-Location
+            if ($exitCode -eq 0) {
+                Write-Host "       [OK] $($_.Name) gotov (ajv + zavisimosti)" -ForegroundColor Green
+            } else {
+                Write-Host "       [!] $($_.Name): npm install ne udalsya (smotri log nizhe)" -ForegroundColor Yellow
+                $output | ForEach-Object { Write-Host "         $_" }
             }
-        } else {
-            Write-Host "    [!] npm ne nayden - $($_.Name) propushchen (rabotaet i bez zavisimostey)" -ForegroundColor Yellow
+        } catch {
+            Pop-Location -ErrorAction SilentlyContinue
+            Write-Host "       [!] $($_.Name): npm install ne udalsya (propuskayu, skill rabotaet bez zavisimostey)" -ForegroundColor Yellow
         }
+    } else {
+        Write-Host "    [!] npm ne nayden - $($_.Name) propushchen (budet rabotat' bez validacii skhem)" -ForegroundColor Yellow
     }
 }
 

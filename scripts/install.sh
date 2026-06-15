@@ -77,22 +77,47 @@ if [ -d "$REPO_DIR/.agents/ExampleSubagents" ]; then
     echo -e "    ${GREEN}[OK]${NC} Primerov agentov: $examples_count"
 fi
 
-echo -e "${YELLOW}[6] Proveryayu npm-zavisimosti skilov...${NC}"
+# [6] npm install dlya skilov s package.json (archify i dr.)
+# Arkhify trebuet Node >= 18 dlya ESM + ajv. Pri starsey versii - preduprezhdaem, no ne blokiruyem.
+echo -e "${YELLOW}[6] Proveryayu Node.js + npm-zavisimosti skilov...${NC}"
+
+node_min_ok=1
+if command -v node >/dev/null 2>&1; then
+    node_major=$(node -v 2>/dev/null | sed -E "s/^v([0-9]+).*//")
+    if [ -n "$node_major" ] && [ "$node_major" -lt 18 ] 2>/dev/null; then
+        node_min_ok=0
+        echo -e "    ${YELLOW}[!]${NC} Node.js v$(node -v | sed "s/^v//") < 18 — nekotorye skilly (archify) mogut ne rabotat'"
+    else
+        echo -e "    ${GREEN}[OK]${NC} Node.js $(node -v) >= 18"
+    fi
+else
+    node_min_ok=0
+    echo -e "    ${YELLOW}[!]${NC} Node.js ne nayden"
+fi
+
 if command -v npm >/dev/null 2>&1; then
     for pkg_dir in "$SKILLS_DEST"/*/; do
         [ -d "$pkg_dir" ] || continue
-        if [ -f "$pkg_dir/package.json" ] && [ ! -d "$pkg_dir/node_modules" ]; then
+        if [ -f "$pkg_dir/package.json" ]; then
             skill_name=$(basename "$pkg_dir")
+            if [ -d "$pkg_dir/node_modules" ]; then
+                echo -e "    ${GREEN}[OK]${NC} $skill_name: node_modules uzhe est (propuskayu)"
+                continue
+            fi
             echo -e "    ${YELLOW}-> $skill_name (npm install)${NC}"
-            if (cd "$pkg_dir" && npm install --no-audit --no-fund --silent 2>/dev/null); then
-                echo -e "       ${GREEN}[OK]${NC} $skill_name gotov"
+            # Bez --silent chtoby videt oshibki, no 2>&1 > log chtoby ne zasoryat' konsol
+            install_log="$TMPDIR/npm-install-$skill_name.log"
+            if (cd "$pkg_dir" && npm install --no-audit --no-fund --loglevel=error 2>"$install_log"); then
+                echo -e "       ${GREEN}[OK]${NC} $skill_name gotov (ajv + zavisimosti)"
             else
-                echo -e "       ${YELLOW}[!]${NC} $skill_name: npm install ne udalsya (skill rabotaet i bez zavisimostey)"
+                echo -e "       ${YELLOW}[!]${NC} $skill_name: npm install ne udalsya (prover'te log nizhe)"
+                echo -e "       Log: $install_log"
+                sed "s/^/         /" "$install_log" | head -5
             fi
         fi
     done
 else
-    echo -e "    ${YELLOW}[!]${NC} npm ne nayden - propuskayu (skilly rabotayut i bez zavisimostey)"
+    echo -e "    ${YELLOW}[!]${NC} npm ne nayden — skilly s package.json (archify) budut rabotat' bez validacii skhem"
 fi
 
 echo ""
