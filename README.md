@@ -1,7 +1,7 @@
 # Ryzoner/agent_skills
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-41-blue.svg)](.agents/skills)
+[![Skills](https://img.shields.io/badge/skills-76-blue.svg)](.agents/skills)
 [![Examples](https://img.shields.io/badge/examples-14-green.svg)](.agents/ExampleSubagents)
 
 **Global library of skills and example subagents for AI agents (Codex, Claude Code, Qwen Code, Cursor, OpenCode, Windsurf, Factory Droid, Gemini CLI).**
@@ -28,7 +28,7 @@ The script:
 
 1. Downloads the repo archive into a temp folder
 2. Creates `~/.agents/skills/`, `~/.agents/ExampleSubagents/`, `~/.myskills/skills/`, `~/.notes/INBOX/`
-3. Copies all 41 skills (no `node_modules`) and 14 example subagents
+3. Copies all 76 skills (no `node_modules`) and 14 example subagents
 4. Runs `npm install` for skills with `package.json` (only `archify` at the moment)
 5. Idempotent: safe to re-run for updates
 
@@ -60,12 +60,12 @@ cp -r .agents/skills/archify ~/.agents/skills/
 ```
 agent_skills/
 ├── .agents/
-│   ├── skills/                    # 41 skills (global base)
+│   ├── skills/                    # 76 skills (global base)
 │   │   ├── archify/               #   Diagrams: arch/workflow/seq/dataflow/lifecycle
 │   │   ├── caveman/               #   Compressed communication (~75% token savings)
 │   │   ├── engineering-principles/
 │   │   ├── explain-complex-code/
-│   │   └── ... (37 more)
+│   │   └── ... (74 more)
 │   └── ExampleSubagents/          # 14 example subagents (inspiration)
 │       ├── code-reviewer.md
 │       ├── security-auditor.md
@@ -135,6 +135,7 @@ agent_skills/
 | `tob-sharp-edges/` | Detect error-prone APIs and footgun designs |
 | `tob-supply-chain-risk-auditor/` | Dependency supply-chain risk audit |
 | `tob-fp-check/` | Bug verification, false-positive elimination |
+| `git-guardrails-claude-code/` | Block dangerous git commands via Claude Code hooks |
 
 ### Code audit and analysis
 
@@ -147,6 +148,7 @@ agent_skills/
 | `deepsource-autofix-bot-api/` | DeepSource auto-fix API |
 | `scientiacapital-git-workflow/` | Conventional commits, PR templates, branching |
 | `pre-commit-setup/` | Pre-commit hooks: linter, formatter, complexity check |
+| `setup-pre-commit/` | Husky + lint-staged pre-commit hooks (Prettier, tsc, tests) |
 | `codex-cli-permissions-and-session-resume/` | Codex CLI permissions and session resume |
 | `session-recall/` | Recover past Codex session context |
 
@@ -157,6 +159,50 @@ agent_skills/
 | `agent-scraper-mcp/` | MCP server: web scraping with rate-limit + x402 middleware |
 | `outline-vpn-basic/` | KISS Outline VPN operations on VPS |
 | `v2raya-linux-basic/` | v2rayA on Linux (TUN, DNS, RoutingA) |
+| `aa-install-module/` | Install/setup helper for AA modules |
+
+### Engineering workflow (Matt Pocock)
+
+| Skill | Purpose |
+|-------|---------|
+| `ask-matt/` | Router: which skill or flow fits your situation |
+| `setup-matt-pocock-skills/` | One-time setup: issue tracker, labels, domain docs |
+| `code-review/` | Review a branch on Standards + Spec axes (parallel) |
+| `codebase-design/` | Deep-module vocabulary for designing interfaces |
+| `domain-modeling/` | Pin down ubiquitous language, record ADRs |
+| `diagnosing-bugs/` | Diagnosis loop for hard bugs and perf regressions |
+| `grill-me/` | Relentless interview to sharpen a plan/design |
+| `grill-with-docs/` | Grilling that also writes ADRs + glossary |
+| `grilling/` | Stress-test a plan, decision, or idea |
+| `handoff/` | Compact current conversation into a handoff doc |
+| `implement/` | Implement work from a spec or set of tickets |
+| `improve-codebase-architecture/` | Scan for deepening opportunities, grill the pick |
+| `prototype/` | Throwaway prototype to answer a design question |
+| `research/` | Investigate a question against primary sources |
+| `resolving-merge-conflicts/` | Resolve in-progress git merge/rebase conflicts |
+| `scaffold-exercises/` | Exercise directory structure that passes linting |
+| `tdd/` | Test-driven development, red-green-refactor |
+| `teach/` | Teach the user a new skill or concept |
+| `to-spec/` | Turn the current conversation into a spec + publish |
+| `to-tickets/` | Break a plan into tracer-bullet tickets with edges |
+| `triage/` | Move issues/PRs through a triage state machine |
+| `wayfinder/` | Plan huge work as a map of decision tickets |
+| `writing-great-skills/` | Reference for writing and editing skills well |
+| `migrate-to-shoehorn/` | Migrate test `as` assertions to @total-typescript/shoehorn |
+
+### Interface and design (better-* series)
+
+| Skill | Purpose |
+|-------|---------|
+| `better-interface/` | Holistic cross-discipline UI review (quick + full) |
+| `better-accessibility/` | A11y: focus, keyboard, ARIA, forms, screen readers |
+| `better-colors/` | OKLCH color space, palettes, contrast, theme tokens |
+| `better-layout/` | Grouping, alignment, reading order, breakpoints |
+| `better-typography/` | Fonts, type scale, wrapping, heading hierarchy |
+| `better-ui/` | UI polish: animations, hover, shadows, micro-interactions |
+| `better-writing/` | UX writing: button labels, errors, empty states |
+| `beautify-github-readme/` | Redesign README homepages, SVG/PNG/GIF assets |
+| `critique/` | UX critique with quantitative scoring and personas |
 
 ### Catalogs (inspiration, not active)
 
@@ -198,10 +244,10 @@ After running `install.sh` / `install.ps1`:
 
 ```
 ~/.agents/
-├── skills/                          # 41 skills
+├── skills/                          # 76 skills
 │   ├── archify/
 │   ├── caveman/
-│   └── ... (39 more)
+│   └── ... (74 more)
 └── ExampleSubagents/                # 14 examples
     ├── code-reviewer.md
     └── meta/
