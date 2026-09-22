@@ -77,6 +77,17 @@ if [ -d "$REPO_DIR/.agents/ExampleSubagents" ]; then
     echo -e "    ${GREEN}[OK]${NC} Primerov agentov: $examples_count"
 fi
 
+echo -e "${YELLOW}[5.5] Kopiruyu konfiguracii (AGENTS.md, CLAUDE.md)...${NC}"
+if [ -f "$REPO_DIR/AGENTS.md" ]; then
+    cp "$REPO_DIR/AGENTS.md" "$HOME_DIR/AGENTS.md"
+    echo -e "    ${GREEN}[OK]${NC} ~/AGENTS.md (main rules for all agents)"
+fi
+if [ -f "$REPO_DIR/CLAUDE.md" ]; then
+    mkdir -p "$HOME_DIR/.claude"
+    cp "$REPO_DIR/CLAUDE.md" "$HOME_DIR/.claude/CLAUDE.md"
+    echo -e "    ${GREEN}[OK]${NC} ~/.claude/CLAUDE.md (Claude Code instructions)"
+fi
+
 # [6] npm install dlya skilov s package.json (archify i dr.)
 # Arkhify trebuet Node >= 18 dlya ESM + ajv. Pri starsey versii - preduprezhdaem, no ne blokiruyem.
 echo -e "${YELLOW}[6] Proveryayu Node.js + npm-zavisimosti skilov...${NC}"
@@ -130,6 +141,12 @@ echo -e "  Skilly            -> $SKILLS_DEST"
 echo -e "  ExampleSubagents  -> $EXAMPLES_DEST"
 echo -e "  User Skills       -> $HOME_DIR/.myskills/skills"
 echo -e "  Notes INBOX       -> $HOME_DIR/.notes/INBOX"
+if [ -f "$HOME_DIR/AGENTS.md" ]; then
+  echo -e "  AGENTS.md         -> $HOME_DIR/AGENTS.md (all agents)"
+fi
+if [ -f "$HOME_DIR/.claude/CLAUDE.md" ]; then
+  echo -e "  CLAUDE.md         -> $HOME_DIR/.claude/CLAUDE.md (Claude Code)"
+fi
 echo ""
 echo -e "${YELLOW}Sleduyushchie shagi:${NC}"
 echo -e "  1. Otkroyte vash AI-agent (Codex, Claude, Qwen, Cursor...)"

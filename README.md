@@ -34,6 +34,30 @@ The script:
 
 After install, open your AI agent - it will pick up the skills automatically.
 
+### Install with AGENTS.md + CLAUDE.md (full config)
+
+**New device? One command to sync everything:**
+
+```bash
+# Clone repo, install skills + configs
+git clone https://github.com/Ryzoner/agent_skills.git ~/.config/agent-sync
+cd ~/.config/agent-sync
+bash scripts/install.sh
+cp AGENTS.md ~/AGENTS.md           # Main rules for all agents
+cp CLAUDE.md ~/.claude/CLAUDE.md   # Claude Code config
+```
+
+**What it does:**
+1. Installs 76+ skills to `~/.agents/skills/`
+2. Syncs `AGENTS.md` (rules for Zed, Claude, OpenCode, etc.)
+3. Syncs `CLAUDE.md` (Claude Code specific instructions)
+4. Auto-activates skills in your AI agents
+
+**Updates:**
+```bash
+cd ~/.config/agent-sync && git pull && bash scripts/install.sh
+```
+
 ### Manual install
 
 ```bash
