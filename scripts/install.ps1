@@ -110,6 +110,21 @@ if (Test-Path $srcExamples) {
     Write-Host "    [OK] Primerov agentov: $examplesCount" -ForegroundColor Green
 }
 
+# 5.5 Kopiruem konfiguracii (AGENTS.md, CLAUDE.md)
+Write-Host "[5.5] Kopiruyu konfiguracii (AGENTS.md, CLAUDE.md)..." -ForegroundColor Yellow
+$agentsFile = Join-Path $REPO_DIR.FullName "AGENTS.md"
+if (Test-Path $agentsFile) {
+    Copy-Item $agentsFile (Join-Path $HOME_DIR "AGENTS.md") -Force
+    Write-Host "    [OK] ~\AGENTS.md (main rules for all agents)" -ForegroundColor Green
+}
+$claudeFile = Join-Path $REPO_DIR.FullName "CLAUDE.md"
+if (Test-Path $claudeFile) {
+    $claudeDir = Join-Path $HOME_DIR ".claude"
+    New-Item -ItemType Directory -Path $claudeDir -Force | Out-Null
+    Copy-Item $claudeFile (Join-Path $claudeDir "CLAUDE.md") -Force
+    Write-Host "    [OK] ~\.claude\CLAUDE.md (Claude Code instructions)" -ForegroundColor Green
+}
+
 # 6. npm install dlya skilov s package.json
 # [6] Proverka Node.js versii i npm install dlya skilov s package.json
 Write-Host "[6] Proveryayu Node.js + npm-zavisimosti skilov..." -ForegroundColor Yellow
@@ -174,6 +189,12 @@ Write-Host "  Skilly            -> $SKILLS_DEST"
 Write-Host "  ExampleSubagents  -> $EXAMPLES_DEST"
 Write-Host "  User Skills       -> $HOME_DIR\.myskills\skills"
 Write-Host "  Notes INBOX       -> $HOME_DIR\.notes\INBOX"
+if (Test-Path (Join-Path $HOME_DIR "AGENTS.md")) {
+    Write-Host "  AGENTS.md         -> $HOME_DIR\AGENTS.md (all agents)"
+}
+if (Test-Path (Join-Path $HOME_DIR ".claude\CLAUDE.md")) {
+    Write-Host "  CLAUDE.md         -> $HOME_DIR\.claude\CLAUDE.md (Claude Code)"
+}
 Write-Host ""
 Write-Host "Sleduyushchie shagi:" -ForegroundColor Yellow
 Write-Host "  1. Otkroyte vash AI-agent (Codex, Claude, Qwen, Cursor...)"

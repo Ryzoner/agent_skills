@@ -24,6 +24,8 @@ curl -fsSL https://raw.githubusercontent.com/Ryzoner/agent_skills/main/scripts/i
 irm https://raw.githubusercontent.com/Ryzoner/agent_skills/main/scripts/install.ps1 | iex
 ```
 
+Same as Linux/macOS — installs everything including AGENTS.md and CLAUDE.md.
+
 The script:
 
 1. Downloads the repo archive into a temp folder
