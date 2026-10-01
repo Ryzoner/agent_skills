@@ -16,7 +16,7 @@ Examples: "Claude added creepers to Dark Souls", Minecraft blocks as Elden Ring 
 - Read the guest's behaviour from its source of truth: decompile or read the wiki's exact numbers (speeds,
   timers, damage). Reimplement it in the host's mod API (host AI state machine, host projectile).
 - **Assets:** never copy the guest's files into your mod. Convert them from the user's install at runtime or
-  install time (a converter script), or recreate lookalikes with fal.
+  install time (a converter script), or recreate lookalikes with Gemini-generated art.
 - It's cheap and robust, with no IPC. It works with any host that has a loader.
 
 ## Pattern 2: passthrough (two games at once)

@@ -26,14 +26,14 @@ Otherwise install it once for any agent: `uv tool install git+https://github.com
 | Need | Command |
 |---|---|
 | What games are installed, what engine, what anti-cheat, where saves live | `um scan --list`, `um scan "<game>"` |
-| Sprites, textures, PBR, 3D models, rigs, SFX, music, voice, video (fal) | `um fal <recipe>`, or the fal MCP (`search_models`, `run_model`) |
+| Sprites, icons, textures, concept art (made by hand in the Gemini app) | **gemini-assets** skill: agent writes prompts, user generates in Gemini |
 | Cut out / fit / pixelate / pack sprites; 3D model → sprite frames | `um sprite ...`, `um render3d ...` |
 | Launch, screenshot, click/type, record a Windows game (also from WSL) | `um win ...` |
 | Snapshot saves before touching them; undo | `um backup create/diff/restore` |
 | Cut a showcase video | `um video contact/compile/mux` |
 | Lint a mod before sharing (game files, decompiled code, secrets) | `um publish check` |
 
-Companion skills: **game-recon**, **reverse-engineering**, **fal-assets**, **asset-pipeline**,
+Companion skills: **game-recon**, **reverse-engineering**, **gemini-assets**, **asset-pipeline**,
 **game-automation**, **showcase-video**, **mashup-mods**, **publish-mod**, **share-field-notes**.
 
 ## The loop
@@ -100,12 +100,13 @@ Take one item, unit or weapon all the way through with placeholder art. Define i
 appears and works, from the log plus a screenshot you actually look at. Only then widen. Commit each working
 step in the mod's own git repo.
 
-### 6. Assets (fal-assets and asset-pipeline skills)
+### 6. Assets (gemini-assets and asset-pipeline skills)
 Study the game's own assets first: size, palette, outline, camera angle, facing, frame layout. Then generate
-with `um fal`. Every call is recorded in `fal_manifest.jsonl`. Convert with `um sprite` / `um render3d` into
+in the Gemini app from prompts you write (`assets/gen/PROMPTS.md`). Convert with `um sprite` / `um render3d` into
 exactly what the engine loads.
-- **Consistency across many angles and frames:** generate one concept, turn it into 3D
-  (`um fal model3d`), then render every heading from the game's camera (`um render3d --preset aoe2`).
+- **Consistency across many angles and frames:** generate one hero image, derive each angle/frame
+  as an edit of it in Gemini. For true 8/16 consistent headings use a 3D model you supply (Blender or a CC0
+  GLB), then `um render3d --preset aoe2`; this setup has no paid image-to-3D.
 - **Pixel-art games:** generate on a flat background or with transparency, cut out, then do one
   nearest-neighbour fit to the frame size.
 

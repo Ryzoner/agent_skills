@@ -60,6 +60,11 @@ cp CLAUDE.md ~/.claude/CLAUDE.md   # Claude Code config
 cd ~/.config/agent-sync && git pull && bash scripts/install.sh
 ```
 
+### External skills (not bundled)
+
+Some skills cannot be redistributed or update too fast. After the installer, follow
+[EXTERNAL_SKILLS.md](EXTERNAL_SKILLS.md). Bundled third-party content is listed in [THIRD_PARTY.md](THIRD_PARTY.md).
+
 ### Manual install
 
 ```bash

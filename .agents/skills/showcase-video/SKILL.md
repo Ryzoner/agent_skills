@@ -66,7 +66,7 @@ EDL.
   radial...) or `cut`.
 - **Fills:** for non-16:9 clips, `fill: blur` (blurred backdrop), `crop` or `pad`.
 - **Per clip:** `speed` and `volume`, `zoom` to punch in past UI, `crop` [x, y, w, h] to reframe.
-- **Music:** `um fal music "..." --seconds 60` makes a bed. Set `bpm` and use `beats` instead of `dur` to
+- **Music:** use your own or a CC0 track as the bed. Set `bpm` and use `beats` instead of `dur` to
   cut on the beat; `um video beats music.mp3` estimates tempo and first beat.
 
 ## Style that works (from real feedback)

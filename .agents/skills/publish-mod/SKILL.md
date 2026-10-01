@@ -36,7 +36,7 @@ is the platform's norm.
 - Credits:
   - the loader and libraries;
   - references you learned from;
-  - **"Art/audio generated with fal (fal.ai) using <models>"** (`fal_manifest.jsonl` lists them);
+  - **"Art generated with Gemini (Google)"** (`assets/gen/PROMPTS.md` lists the prompts);
   - honest AI disclosure (which agent and model built it).
 - License for your code (MIT/Apache is common). Your assets' terms follow the models' licenses.
 
