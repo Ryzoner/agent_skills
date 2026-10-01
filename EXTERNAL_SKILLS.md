@@ -26,6 +26,20 @@ CadQuery to STL/3MF. Needs Python 3.10-3.12. Its own description says not for ga
 npx -y skills add flowful-ai/cad-skill -g -y
 ```
 
+## mandrille/pixelart (no licence: personal use only): pixel art from text grids
+No image model: the agent writes a sprite as a character grid plus a hex palette, the tool renders PNG,
+spritesheet or GIF. Skill folder installs as `pixel-art`.
+```bash
+npx -y skills add mandrille/pixelart -g -y
+uv tool install git+https://github.com/mandrille/pixelart
+```
+
+## sprite-forge CLI (the skill itself is bundled in this repo, MIT)
+```bash
+uv tool install git+https://github.com/isabellagreco1997/sprite-forge
+```
+`spriteforge snap` auto-detection of the pixel grid can miss on clean synthetic input: pass `--cell <size>`.
+
 ## Free alternatives to fal.ai (candidates, not installed)
 | Repo | What | Catch |
 |---|---|---|
