@@ -67,6 +67,23 @@ rtk init -g --hook-only --auto-patch
 ```
 Windows: `winget install rtk-ai.rtk`, then `rtk init -g --hook-only --auto-patch`. Restart Claude Code afterwards.
 
+## DevOps skills: Terraform, Kubernetes, GitLab CI, Prometheus
+Selected by `name`, not folder. Skills only: the agents and commands of these plugins are not installed.
+
+hashicorp/agent-skills (MPL-2.0), official Terraform skills:
+```bash
+npx -y skills add hashicorp/agent-skills -g -y -s terraform-style-guide -s terraform-test -s refactor-module -s terraform-stacks -s terraform-search-import -s terraform-policy
+```
+wshobson/agents (MIT), 20 skills out of 184:
+```bash
+npx -y skills add wshobson/agents -g -y -s gitlab-ci-patterns -s secrets-management -s deployment-pipeline-design -s helm-chart-scaffolding -s gitops-workflow -s k8s-manifest-generator -s k8s-security-policies -s prometheus-configuration -s grafana-dashboards -s slo-implementation -s distributed-tracing -s incident-runbook-templates -s postmortem-writing -s on-call-handoff-patterns -s connectivity-triage -s sast-configuration -s bash-defensive-patterns -s shellcheck-configuration -s bats-testing-patterns -s terraform-module-library
+```
+LukasNiessen/kubernetes-skill (MIT), fewer Kubernetes hallucinations:
+```bash
+npx -y skills add LukasNiessen/kubernetes-skill -g -y
+```
+Notes: `connectivity-triage` is macOS-specific. `gitops-workflow` shows `curl ... | sudo bash` for Flux: read before running.
+
 ## Free alternatives to fal.ai (candidates, not installed)
 | Repo | What | Catch |
 |---|---|---|
