@@ -84,6 +84,13 @@ npx -y skills add LukasNiessen/kubernetes-skill -g -y
 ```
 Notes: `connectivity-triage` is macOS-specific. `gitops-workflow` shows `curl ... | sudo bash` for Flux: read before running.
 
+## docker/skills (Apache-2.0, official): Docker core skills
+Also bundled in `.agents/skills/docker-*` of this repo (installer copies them), so the command is needed only for updates.
+The other seven (`docker-agent-*`, `docker-sandboxes-*`) cover Docker Agent and Docker Sandboxes products, not installed by default.
+```bash
+npx -y skills add docker/skills -g -y -s docker-build-strategies -s docker-compose-patterns -s docker-destructive-guardrails -s docker-project-foundations
+```
+
 ## Free alternatives to fal.ai (candidates, not installed)
 | Repo | What | Catch |
 |---|---|---|
