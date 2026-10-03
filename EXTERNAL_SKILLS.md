@@ -40,6 +40,33 @@ uv tool install git+https://github.com/isabellagreco1997/sprite-forge
 ```
 `spriteforge snap` auto-detection of the pixel grid can miss on clean synthetic input: pass `--cell <size>`.
 
+## affaan-m/ECC (MIT): only five standalone skills, not the whole harness
+ECC is a large bundle (293 skills, 68 agents, 94 commands, rules, hooks). Installing it whole bloats the context
+of every session, so take just these:
+```bash
+npx -y skills add affaan-m/ECC -g -y -s context-budget -s strategic-compact -s search-first -s verification-loop -s dotnet-patterns
+```
+
+## Leonxlnx/taste-skill (MIT): frontend design style skills
+The CLI selects by the `name` field, not the folder name. The image-generation variants (`imagegen-*`,
+`image-to-code`, `brandkit`) need an image generator and are skipped.
+```bash
+npx -y skills add Leonxlnx/taste-skill -g -y -s design-taste-frontend -s redesign-existing-projects -s minimalist-ui -s high-end-visual-design -s industrial-brutalist-ui
+```
+
+## cathrynlavery/diagram-design (MIT): editorial diagrams as HTML/SVG
+```bash
+npx -y skills add cathrynlavery/diagram-design -g -y
+```
+
+## rtk-ai/rtk (Apache-2.0): compresses Bash output before the agent reads it
+Binary plus a PreToolUse hook on Bash. Telemetry is off by default. Hook only, no CLAUDE.md edits:
+```bash
+brew install rtk
+rtk init -g --hook-only --auto-patch
+```
+Windows: `winget install rtk-ai.rtk`, then `rtk init -g --hook-only --auto-patch`. Restart Claude Code afterwards.
+
 ## Free alternatives to fal.ai (candidates, not installed)
 | Repo | What | Catch |
 |---|---|---|
