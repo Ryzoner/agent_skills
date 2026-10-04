@@ -131,6 +131,18 @@ else
     echo -e "    ${YELLOW}[!]${NC} npm ne nayden — skilly s package.json (archify) budut rabotat' bez validacii skhem"
 fi
 
+echo -e "${YELLOW}[7] Indeks skilov (skill-index): skilly iz konteksta v biblioteku...${NC}"
+if [ -f "$REPO_DIR/skill-index/skill_index.py" ]; then
+    PY="$(command -v python3 || command -v python || true)"
+    if [ -n "$PY" ]; then
+        "$PY" "$REPO_DIR/skill-index/skill_index.py" install \
+            && echo -e "    ${GREEN}[OK]${NC} biblioteka ~/.agents/skill-library, indeks ~/.agents/skill-index/INDEX.md" \
+            || echo -e "    ${YELLOW}[!]${NC} skill-index ne ustanovlen (skilly ostalis zaregistrirovany kak ran'she)"
+    else
+        echo -e "    ${YELLOW}[!]${NC} python ne nayden - skill-index propushchen"
+    fi
+fi
+
 echo ""
 echo -e "${CYAN}==================================================${NC}"
 echo -e "${CYAN}  [OK] Ustanovka zavershena!${NC}"

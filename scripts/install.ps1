@@ -176,6 +176,19 @@ Get-ChildItem -Path $SKILLS_DEST -Directory | Where-Object { Test-Path (Join-Pat
     }
 }
 
+# 7. Indeks skilov (skill-index)
+Write-Host "[7] Indeks skilov (skill-index): skilly iz konteksta v biblioteku..." -ForegroundColor Yellow
+$indexScript = Join-Path $REPO_DIR.FullName "skill-index\skill_index.py"
+if (Test-Path $indexScript) {
+    $py = Get-Command python -ErrorAction SilentlyContinue
+    if ($null -eq $py) { $py = Get-Command py -ErrorAction SilentlyContinue }
+    if ($null -ne $py) {
+        & $py.Source $indexScript install
+        if ($LASTEXITCODE -eq 0) { Write-Host "    [OK] ~\.agents\skill-library, indeks ~\.agents\skill-index\INDEX.md" -ForegroundColor Green }
+        else { Write-Host "    [!] skill-index ne ustanovlen (skilly ostalis zaregistrirovany kak ran'she)" -ForegroundColor Yellow }
+    } else { Write-Host "    [!] python ne nayden - skill-index propushchen" -ForegroundColor Yellow }
+}
+
 # Ochistka
 Remove-Item $TMPDIR -Recurse -Force -ErrorAction SilentlyContinue
 

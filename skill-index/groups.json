@@ -1,0 +1,266 @@
+{
+  "registered": [
+    "skill-router",
+    "caveman",
+    "caveman-stats",
+    "handoff",
+    "half-clone",
+    "quarter-clone"
+  ],
+  "cross_cutting": [
+    {
+      "when": "writing, changing, reviewing or designing code",
+      "skills": [
+        "engineering-principles",
+        "ponytail"
+      ]
+    },
+    {
+      "when": "any bug, failing test or unexpected behaviour",
+      "skills": [
+        "systematic-debugging"
+      ]
+    },
+    {
+      "when": "before saying a coding task is done",
+      "skills": [
+        "verification-loop"
+      ]
+    },
+    {
+      "when": "before commit or push",
+      "skills": [
+        "pr-prep-secret-guard"
+      ]
+    },
+    {
+      "when": "about to run a destructive command (rm -rf, docker prune or rm -f, git push --force, reset --hard, terraform destroy, kubectl delete)",
+      "skills": [
+        "docker-destructive-guardrails",
+        "git-guardrails-claude-code"
+      ]
+    },
+    {
+      "when": "session is getting long or context is heavy",
+      "skills": [
+        "strategic-compact",
+        "context-budget"
+      ]
+    }
+  ],
+  "overrides": {
+    "mod-any-game": "Entry point for modding any PC game: the whole loop, safety rules and engine playbooks. Start here, it routes to game-recon and the rest.",
+    "hyperframes": "Entry point for any video, animation or motion graphic from HTML. Read first, it selects the workflow."
+  },
+  "groups": {
+    "game-modding": {
+      "about": "Modding PC games, reverse engineering, game assets, sprites, publishing mods.",
+      "skills": [
+        "mod-any-game",
+        "game-recon",
+        "reverse-engineering",
+        "asset-pipeline",
+        "game-automation",
+        "showcase-video",
+        "mashup-mods",
+        "publish-mod",
+        "share-field-notes",
+        "gemini-assets",
+        "sprite-forge",
+        "pixel-art",
+        "parametric-3d-printing"
+      ]
+    },
+    "video-media": {
+      "about": "Video and animation from code (HyperFrames), motion graphics, media sourcing.",
+      "skills": [
+        "hyperframes*",
+        "media-use",
+        "motion-graphics"
+      ]
+    },
+    "devops-terraform": {
+      "about": "Terraform and OpenTofu: modules, style, tests, policies, stacks, importing resources.",
+      "skills": [
+        "terraform-*",
+        "refactor-module"
+      ]
+    },
+    "devops-kubernetes": {
+      "about": "Kubernetes manifests, Helm, GitOps with ArgoCD or Flux, cluster security.",
+      "skills": [
+        "kubernetes-skill",
+        "k8s-*",
+        "helm-chart-scaffolding",
+        "gitops-workflow"
+      ]
+    },
+    "devops-ci-docker": {
+      "about": "GitLab CI and deployment pipelines, Docker images, Compose, CI secrets.",
+      "skills": [
+        "gitlab-ci-patterns",
+        "deployment-pipeline-design",
+        "patricio0312rev-ci-cd-secrets",
+        "docker-*"
+      ]
+    },
+    "observability-incident": {
+      "about": "Prometheus, Grafana, SLOs, tracing, runbooks, postmortems, on-call.",
+      "skills": [
+        "prometheus-configuration",
+        "grafana-dashboards",
+        "slo-implementation",
+        "distributed-tracing",
+        "incident-runbook-templates",
+        "postmortem-writing",
+        "on-call-handoff-patterns"
+      ]
+    },
+    "shell-servers": {
+      "about": "Bash scripting quality, ShellCheck, Bats, VPN and server setup, quick hosting.",
+      "skills": [
+        "bash-defensive-patterns",
+        "shellcheck-configuration",
+        "bats-testing-patterns",
+        "outline-vpn-basic",
+        "v2raya-linux-basic",
+        "pinme",
+        "connectivity-triage"
+      ]
+    },
+    "security-secrets": {
+      "about": "Security review, threat models, static analysis, secrets and leaked credentials.",
+      "skills": [
+        "tob-*",
+        "security-threat-model",
+        "scientiacapital-security",
+        "deepsource-*",
+        "sast-configuration",
+        "git-secrets-precommit-scanner",
+        "pr-prep-secret-guard",
+        "patricio0312rev-env-secrets-manager",
+        "patricio0312rev-secrets-scanner",
+        "secrets-management"
+      ]
+    },
+    "git-workflow": {
+      "about": "Git operations, merge conflicts, worktrees, pre-commit hooks, safe commits.",
+      "skills": [
+        "gitx",
+        "yeet",
+        "resolving-merge-conflicts",
+        "using-git-worktrees",
+        "scientiacapital-git-workflow",
+        "git-guardrails-claude-code",
+        "pre-commit-setup",
+        "setup-pre-commit"
+      ]
+    },
+    "debugging-runtime": {
+      "about": "Finding root causes, running scripts and servers, logging.",
+      "skills": [
+        "systematic-debugging",
+        "diagnosing-bugs",
+        "live-runner",
+        "logging-helper"
+      ]
+    },
+    "coding-practice": {
+      "about": "How to write and review code: principles, TDD, architecture, verification, explaining code.",
+      "skills": [
+        "engineering-principles",
+        "ponytail",
+        "tdd",
+        "implement",
+        "code-review",
+        "codebase-design",
+        "improve-codebase-architecture",
+        "search-first",
+        "dotnet-patterns",
+        "migrate-to-shoehorn",
+        "verification-loop",
+        "scaffold-exercises",
+        "explain-complex-code",
+        "teach"
+      ]
+    },
+    "planning-spec": {
+      "about": "Before building: brainstorming, plans, specs, tickets, interviews, prototypes, triage.",
+      "skills": [
+        "brainstorming",
+        "writing-plans",
+        "spec-mode",
+        "kirospec-basic",
+        "to-spec",
+        "to-tickets",
+        "wayfinder",
+        "grill*",
+        "prototype",
+        "ask-matt",
+        "triage",
+        "setup-matt-pocock-skills",
+        "domain-modeling"
+      ]
+    },
+    "frontend-design": {
+      "about": "Web UI design quality: layout, colour, typography, accessibility, redesigns, README polish.",
+      "skills": [
+        "frontend-design",
+        "design-taste-frontend",
+        "redesign-existing-projects",
+        "minimalist-ui",
+        "high-end-visual-design",
+        "industrial-brutalist-ui",
+        "critique",
+        "better-*",
+        "beautify-github-readme"
+      ]
+    },
+    "diagrams-documents": {
+      "about": "Diagrams and office files: architecture diagrams, docx, pdf, pptx, xlsx, canvas, templates.",
+      "skills": [
+        "archify",
+        "diagram-design",
+        "json-canvas",
+        "docx",
+        "pdf",
+        "pptx",
+        "xlsx",
+        "knap"
+      ]
+    },
+    "knowledge-writing": {
+      "about": "Research, writing, Obsidian notes, web extraction, de-AI-ing text, resource catalogs.",
+      "skills": [
+        "obsidian-*",
+        "defuddle",
+        "research",
+        "content-research-writer",
+        "avoid-ai-writing",
+        "external-resources-catalog"
+      ]
+    },
+    "agent-meta": {
+      "about": "Working with the agent itself: sessions, context, tokens, writing skills, subagents, project bootstrap.",
+      "skills": [
+        "skill-router",
+        "caveman",
+        "caveman-stats",
+        "context-budget",
+        "strategic-compact",
+        "half-clone",
+        "quarter-clone",
+        "handoff",
+        "session-recall",
+        "codex-cli-*",
+        "skill-creator",
+        "writing-great-skills",
+        "skill-file-structure",
+        "zed-skill-yaml-format",
+        "subagent-creator-universal",
+        "project-bootstrap",
+        "skills-discovery"
+      ]
+    }
+  }
+}
