@@ -32,14 +32,14 @@ def message(topics, cross):
     parts = ["Маршрутизация скиллов (подсказка хука по словам запроса)."]
     if topics:
         files = ", ".join("~/.agents/skill-index/groups/%s.md" % t for t in topics)
-        parts.append("Похоже на темы: %s. Перед ответом прочитай %s, выбери до 3 скиллов, прочитай их SKILL.md и следуй им."
+        parts.append("Похоже на темы: %s. Перед ответом прочитай %s, выбери до 3 скиллов, прочитай их SKILL.md целиком (не head или sed) и следуй им."
                      % (", ".join(topics), files))
     if cross:
         parts.append("По словам запроса подходят сквозные: %s." % ", ".join(cross))
     if topics:
         rules = "; ".join(r.get("short", "") for r in MAN.get("cross_cutting", []) if r.get("short"))
         parts.append("Сквозные правила, проверь всегда: %s." % rules)
-    parts.append("В ответе строка `Скиллы: a, b (ещё подходят: c)`. Если подсказка не по делу, проигнорируй её.")
+    parts.append("В ответе строка `Скиллы: <только прочитанные> (ещё подходят: <остальные, включая сквозные>)`. Если подсказка не по делу, проигнорируй её.")
     return " ".join(parts)
 
 

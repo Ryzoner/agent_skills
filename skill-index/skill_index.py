@@ -203,7 +203,7 @@ def cmd_build(_):
     lib_ref = "~/.agents/skill-library"
     lines = ["# Skill index", "",
              "Skills are NOT registered, they live in `%s/<name>/SKILL.md`. Route: pick a topic below, read its group file, "
-             "read the chosen SKILL.md fully, follow it, tell the user `Скиллы: a, b (ещё подходят: c)`. Skip only for translation, definitions, arithmetic and chat." % lib_ref, "",
+             "read the chosen SKILL.md fully (no head or sed), follow it, tell the user `Скиллы: <read only> (ещё подходят: <the rest>)`. Skip only for translation, definitions, arithmetic and chat." % lib_ref, "",
              "## Cross-cutting (check on every task)", ""]
     for r in man.get("cross_cutting", []):
         lines.append("- %s → %s" % (r["when"], ", ".join(r["skills"])))

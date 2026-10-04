@@ -19,9 +19,10 @@ Skip ONLY for: translation, definitions and general facts, arithmetic, small tal
 1. If a hook already suggested topics, start with them. Otherwise read `~/.agents/skill-index/INDEX.md`
    (Cross-cutting rules first, they apply to almost every task).
 2. Pick at most two topics. Read `~/.agents/skill-index/groups/<topic>.md`.
-3. Pick at most three skills whose "use when" fits. Read each `SKILL.md` fully (and the files it points to,
-   paths are relative to the skill folder) and follow it.
-4. Tell the user in one line: `Скиллы: a, b (ещё подходят: c)`. List cut candidates without reading them.
+3. Pick at most three skills whose "use when" fits. Read each `SKILL.md` fully: Read without a limit, not head
+   or sed (and the files it points to, paths are relative to the skill folder). Follow it.
+4. Tell the user in one line: `Скиллы: a, b (ещё подходят: c)`. Only skills you actually read go before the
+   brackets. Everything else, cross-cutting ones included, goes into "ещё подходят".
 5. No topic fits: work without skills. Do not guess a skill from memory.
 
 ## If the index is missing or stale
