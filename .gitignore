@@ -44,3 +44,5 @@ auth*.json
 .npmrc
 .pypirc
 .netrc
+__pycache__/
+*.pyc
