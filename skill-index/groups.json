@@ -13,24 +13,67 @@
       "skills": [
         "engineering-principles",
         "ponytail"
+      ],
+      "keywords": [
+        "напиши",
+        "скрипт",
+        "script",
+        "функци",
+        "\\bкод",
+        "\\bcode",
+        "реализ",
+        "implement",
+        "рефактор",
+        "refactor"
       ]
     },
     {
       "when": "any bug, failing test or unexpected behaviour",
       "skills": [
         "systematic-debugging"
+      ],
+      "keywords": [
+        "\\bбаг",
+        "\\bbug",
+        "ошибк",
+        "\\berror",
+        "пада[ею]т",
+        "упал",
+        "\\bcrash",
+        "не работает",
+        "exception",
+        "crashloop",
+        "исключени",
+        "\\boom",
+        "убива",
+        "\\b50[0234]\\b",
+        "таймаут",
+        "timeout"
       ]
     },
     {
       "when": "before saying a coding task is done",
       "skills": [
         "verification-loop"
+      ],
+      "keywords": [
+        "готов[оа]? ли",
+        "проверь перед",
+        "закончил",
+        "\\bdone\\b"
       ]
     },
     {
       "when": "before commit or push",
       "skills": [
         "pr-prep-secret-guard"
+      ],
+      "keywords": [
+        "коммит",
+        "commit",
+        "\\bpush",
+        "пуш",
+        "pull request"
       ]
     },
     {
@@ -38,6 +81,18 @@
       "skills": [
         "docker-destructive-guardrails",
         "git-guardrails-claude-code"
+      ],
+      "keywords": [
+        "удал",
+        "\\bdelete",
+        "rm -rf",
+        "\\bprune",
+        "destroy",
+        "очист",
+        "снес",
+        "force",
+        "reset --hard",
+        "\\bdrop\\b"
       ]
     },
     {
@@ -45,6 +100,11 @@
       "skills": [
         "strategic-compact",
         "context-budget"
+      ],
+      "keywords": [
+        "контекст",
+        "context",
+        "compact"
       ]
     }
   ],
@@ -69,6 +129,25 @@
         "gemini-assets",
         "sprite-forge",
         "pixel-art"
+      ],
+      "keywords": [
+        "\\bмод(ы|а|ов|ом)?\\b",
+        "моддинг",
+        "modding",
+        "\\bmod\\b",
+        "\\bигр",
+        "\\bgame",
+        "спрайт",
+        "sprite",
+        "декомпил",
+        "decompil",
+        "реверс",
+        "reverse.?engineer",
+        "движ[оке]",
+        "\\bunity\\b",
+        "unreal",
+        "пиксель",
+        "pixel"
       ]
     },
     "video-media": {
@@ -77,12 +156,31 @@
         "hyperframes*",
         "media-use",
         "motion-graphics"
+      ],
+      "keywords": [
+        "видео",
+        "ролик",
+        "анимац",
+        "\\bvideo",
+        "motion",
+        "озвучк",
+        "hyperframes",
+        "трейлер"
       ]
     },
     "cad-3d-printing": {
       "about": "Designing physical parts for 3D printing: parametric CAD models (CadQuery), STL and 3MF.",
       "skills": [
         "parametric-3d-printing"
+      ],
+      "keywords": [
+        "3[dд].?печат",
+        "печат\\w* на 3[dд]",
+        "\\bstl\\b",
+        "\\b3mf\\b",
+        "cadquery",
+        "корпус для",
+        "кронштейн"
       ]
     },
     "devops-terraform": {
@@ -90,6 +188,22 @@
       "skills": [
         "terraform-*",
         "refactor-module"
+      ],
+      "keywords": [
+        "terraform",
+        "терраформ",
+        "opentofu",
+        "\\.tf\\b",
+        "tfstate",
+        "\\bhcl\\b",
+        "\\bмодул",
+        "\\bvpc\\b",
+        "подсет",
+        "subnet",
+        "провайдер",
+        "\\bprovider",
+        "\\bstate\\b",
+        "стейт"
       ]
     },
     "devops-kubernetes": {
@@ -99,6 +213,32 @@
         "k8s-*",
         "helm-chart-scaffolding",
         "gitops-workflow"
+      ],
+      "keywords": [
+        "kubernetes",
+        "кубер",
+        "\\bk8s\\b",
+        "\\bpods?\\b",
+        "\\bhelm",
+        "хелм",
+        "argo",
+        "\\bflux",
+        "ingress",
+        "kubectl",
+        "crashloop",
+        "namespace",
+        "неймспейс",
+        "манифест",
+        "\\bnode\\b",
+        "\\bнод[аыуе]?\\b",
+        "\\bhpa\\b",
+        "statefulset",
+        "daemonset",
+        "\\bpvc\\b",
+        "\\bsvc\\b",
+        "\\bchart",
+        "values\\.ya?ml",
+        "\\bvalues\\b"
       ]
     },
     "devops-ci-docker": {
@@ -108,6 +248,30 @@
         "deployment-pipeline-design",
         "patricio0312rev-ci-cd-secrets",
         "docker-*"
+      ],
+      "keywords": [
+        "gitlab",
+        "гитлаб",
+        "ci/cd",
+        "\\bci\\b",
+        "пайплайн",
+        "pipeline",
+        "docker",
+        "докер",
+        "compose",
+        "dockerfile",
+        "контейнер",
+        "registry",
+        "деплой",
+        "deploy",
+        "раннер",
+        "runner",
+        "jenkins",
+        "github actions",
+        "\\bобраз",
+        "swarm",
+        "сборк",
+        "\\bbuild\\b"
       ]
     },
     "observability-incident": {
@@ -120,6 +284,44 @@
         "incident-runbook-templates",
         "postmortem-writing",
         "on-call-handoff-patterns"
+      ],
+      "keywords": [
+        "prometheus",
+        "прометe",
+        "прометей",
+        "прометее",
+        "grafana",
+        "графан",
+        "алерт",
+        "alert",
+        "\\bslo\\b",
+        "\\bsli\\b",
+        "метрик",
+        "трассир",
+        "tracing",
+        "jaeger",
+        "инцидент",
+        "incident",
+        "постмортем",
+        "postmortem",
+        "дежурств",
+        "on-?call",
+        "ранбук",
+        "runbook",
+        "лежал",
+        "downtime",
+        "простой прод",
+        "надёжност",
+        "надежност",
+        "дашборд",
+        "dashboard",
+        "latency",
+        "латенс",
+        "\\bp9[59]\\b",
+        "exporter",
+        "\\bloki\\b",
+        "мониторинг",
+        "monitoring"
       ]
     },
     "shell-servers": {
@@ -132,6 +334,29 @@
         "v2raya-linux-basic",
         "pinme",
         "connectivity-triage"
+      ],
+      "keywords": [
+        "\\bbash\\b",
+        "\\bshell\\b",
+        "shellcheck",
+        "\\bbats\\b",
+        "\\bvpn\\b",
+        "\\bvps\\b",
+        "\\bcron\\b",
+        "крон",
+        "сервер",
+        "systemd",
+        "/var/",
+        "/etc/",
+        "бэкап",
+        "backup",
+        "расписани",
+        "schedule",
+        "ansible",
+        "\\bssh\\b",
+        "nginx",
+        "linux",
+        "линукс"
       ]
     },
     "security-secrets": {
@@ -147,6 +372,27 @@
         "patricio0312rev-env-secrets-manager",
         "patricio0312rev-secrets-scanner",
         "secrets-management"
+      ],
+      "keywords": [
+        "секрет",
+        "secret",
+        "парол",
+        "password",
+        "уязвим",
+        "vulnerab",
+        "безопасн",
+        "security",
+        "owasp",
+        "semgrep",
+        "\\bsast\\b",
+        "threat",
+        "угроз",
+        "утечк",
+        "\\bleak",
+        "vault",
+        "креды",
+        "credential",
+        "\\bapi.?key"
       ]
     },
     "git-workflow": {
@@ -160,6 +406,23 @@
         "git-guardrails-claude-code",
         "pre-commit-setup",
         "setup-pre-commit"
+      ],
+      "keywords": [
+        "\\bgit\\b",
+        "\\bгит\\b",
+        "коммит",
+        "commit",
+        "\\bmerge",
+        "мерж",
+        "rebase",
+        "ребейз",
+        "ветк",
+        "branch",
+        "pull request",
+        "\\bpr\\b",
+        "worktree",
+        "pre-commit",
+        "конфликт"
       ]
     },
     "debugging-runtime": {
@@ -169,6 +432,33 @@
         "diagnosing-bugs",
         "live-runner",
         "logging-helper"
+      ],
+      "keywords": [
+        "\\bбаг",
+        "\\bbug",
+        "ошибк",
+        "\\berror",
+        "пада[ею]т",
+        "упал",
+        "\\bcrash",
+        "краш",
+        "не работает",
+        "не запуска",
+        "отлад",
+        "\\bdebug",
+        "\\bлоги?\\b",
+        "\\blogs?\\b",
+        "exception",
+        "traceback",
+        "исключени",
+        "\\boom",
+        "\\bпамят",
+        "memory",
+        "\\b50[0234]\\b",
+        "таймаут",
+        "timeout",
+        "тормоз",
+        "медленн"
       ]
     },
     "coding-practice": {
@@ -188,6 +478,26 @@
         "scaffold-exercises",
         "explain-complex-code",
         "teach"
+      ],
+      "keywords": [
+        "напиши\\s+(функц|класс|модуль|код|программ)",
+        "\\bкод\\b",
+        "\\bкода\\b",
+        "\\bcode\\b",
+        "рефактор",
+        "refactor",
+        "архитектур",
+        "\\bтест",
+        "\\btest",
+        "\\btdd\\b",
+        "ревью",
+        "review",
+        "c#",
+        "\\.net\\b",
+        "typescript",
+        "python",
+        "питон",
+        "объясни"
       ]
     },
     "planning-spec": {
@@ -206,6 +516,21 @@
         "triage",
         "setup-matt-pocock-skills",
         "domain-modeling"
+      ],
+      "keywords": [
+        "\\bплан\\b",
+        "\\bплана\\b",
+        "\\bplan\\b",
+        "спецификац",
+        "\\bspec",
+        "тикет",
+        "ticket",
+        "требовани",
+        "requirement",
+        "прототип",
+        "prototype",
+        "обсудим",
+        "\\bфич"
       ]
     },
     "frontend-design": {
@@ -220,6 +545,27 @@
         "critique",
         "better-*",
         "beautify-github-readme"
+      ],
+      "keywords": [
+        "\\bсайт",
+        "лендинг",
+        "landing",
+        "визитк",
+        "интерфейс",
+        "\\bui\\b",
+        "\\bux\\b",
+        "дизайн",
+        "\\bdesign",
+        "вёрстк",
+        "верстк",
+        "\\bcss\\b",
+        "tailwind",
+        "шрифт",
+        "readme",
+        "frontend",
+        "фронт",
+        "страничк",
+        "веб-?страниц"
       ]
     },
     "diagrams-documents": {
@@ -233,6 +579,21 @@
         "pptx",
         "xlsx",
         "knap"
+      ],
+      "keywords": [
+        "диаграмм",
+        "diagram",
+        "\\bсхем",
+        "docx",
+        "\\bword\\b",
+        "\\bpdf\\b",
+        "pptx",
+        "презентац",
+        "слайд",
+        "excel",
+        "xlsx",
+        "таблиц",
+        "canvas"
       ]
     },
     "knowledge-writing": {
@@ -244,6 +605,16 @@
         "content-research-writer",
         "avoid-ai-writing",
         "external-resources-catalog"
+      ],
+      "keywords": [
+        "obsidian",
+        "обсидиан",
+        "заметк",
+        "исследу",
+        "research",
+        "стать[юяи]",
+        "лонгрид",
+        "markdown"
       ]
     },
     "agent-meta": {
@@ -266,7 +637,26 @@
         "subagent-creator-universal",
         "project-bootstrap",
         "skills-discovery"
+      ],
+      "keywords": [
+        "скилл",
+        "\\bskill",
+        "субагент",
+        "subagent",
+        "сабагент",
+        "контекст",
+        "\\bсесси",
+        "\\bsession",
+        "handoff",
+        "agents\\.md",
+        "claude\\.md",
+        "промпт",
+        "prompt"
       ]
     }
-  }
+  },
+  "skip": [
+    "^\\s*(переведи|перевод|translate)\\b",
+    "^\\s*(спасибо|благодарю|thanks|thank you|ок|ok|понял)\\b"
+  ]
 }

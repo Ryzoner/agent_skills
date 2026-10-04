@@ -8,6 +8,7 @@ Commands:
   check           list skills with no group, duplicates, empty groups
   install         copy router skill, script and manifest to the device, then sync + build
   revert          undo the last applied sync
+  hook-on/off     register or remove the UserPromptSubmit routing hook in ~/.claude/settings.json
 Stdlib only, Python 3.8+. SKILL_INDEX_HOME overrides the home dir (tests).
 """
 import argparse, fnmatch, json, os, re, shutil, sys, time
@@ -202,7 +203,7 @@ def cmd_build(_):
     lib_ref = "~/.agents/skill-library"
     lines = ["# Skill index", "",
              "Skills are NOT registered, they live in `%s/<name>/SKILL.md`. Route: pick a topic below, read its group file, "
-             "read the chosen SKILL.md fully, follow it, tell the user `Скиллы: a, b`. Skip for trivial chat." % lib_ref, "",
+             "read the chosen SKILL.md fully, follow it, tell the user `Скиллы: a, b (ещё подходят: c)`. Skip only for translation, definitions, arithmetic and chat." % lib_ref, "",
              "## Cross-cutting (check on every task)", ""]
     for r in man.get("cross_cutting", []):
         lines.append("- %s → %s" % (r["when"], ", ".join(r["skills"])))
@@ -244,7 +245,7 @@ def cmd_check(_):
 def cmd_install(a):
     man = manifest()
     IDX.mkdir(parents=True, exist_ok=True)
-    for f in ("skill_index.py", "groups.json"):
+    for f in ("skill_index.py", "groups.json", "route_hook.py"):
         shutil.copy2(HERE / f, IDX / f)
     router = AGENTS / "skills" / "skill-router"
     if router.exists():
@@ -264,12 +265,56 @@ def cmd_install(a):
     a.verbose = False
     cmd_sync(a)
     cmd_build(a)
+    cmd_hook_on(a)
+
+
+def settings_path():
+    return HOME / ".claude" / "settings.json"
+
+
+def hook_command():
+    return '"%s" "%s"' % (sys.executable, IDX / "route_hook.py")
+
+
+def cmd_hook_on(_):
+    sp = settings_path()
+    if not sp.parent.is_dir():
+        print("no ~/.claude: hook skipped (not Claude Code)"); return
+    data = json.loads(sp.read_text(encoding="utf-8")) if sp.exists() else {}
+    if sp.exists():
+        shutil.copy2(sp, sp.with_name("settings.json.bak-skill-index-hook"))
+    ups = data.setdefault("hooks", {}).setdefault("UserPromptSubmit", [])
+    for entry in ups:
+        for h in entry.get("hooks", []):
+            if "route_hook.py" in h.get("command", ""):
+                h["command"] = hook_command()
+                sp.write_text(json.dumps(data, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
+                print("hook already registered, command refreshed"); return
+    ups.append({"hooks": [{"type": "command", "command": hook_command()}]})
+    sp.write_text(json.dumps(data, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
+    print("hook registered in", sp)
+
+
+def cmd_hook_off(_):
+    sp = settings_path()
+    if not sp.exists():
+        return
+    data = json.loads(sp.read_text(encoding="utf-8"))
+    ups = data.get("hooks", {}).get("UserPromptSubmit", [])
+    keep = [e for e in ups if not any("route_hook.py" in h.get("command", "") for h in e.get("hooks", []))]
+    if len(keep) != len(ups):
+        if keep:
+            data["hooks"]["UserPromptSubmit"] = keep
+        else:
+            data["hooks"].pop("UserPromptSubmit", None)
+        sp.write_text(json.dumps(data, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
+        print("hook removed")
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
-    for n, f in (("status", cmd_status), ("build", cmd_build), ("check", cmd_check), ("revert", cmd_revert), ("install", cmd_install)):
+    for n, f in (("status", cmd_status), ("build", cmd_build), ("check", cmd_check), ("revert", cmd_revert), ("install", cmd_install), ("hook-on", cmd_hook_on), ("hook-off", cmd_hook_off)):
         sub.add_parser(n).set_defaults(fn=f)
     s = sub.add_parser("sync")
     s.add_argument("--apply", action="store_true")
