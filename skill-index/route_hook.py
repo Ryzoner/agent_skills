@@ -8,6 +8,7 @@ import json, re, sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+MAN = {}
 
 
 def hits(text, patterns):
@@ -34,7 +35,10 @@ def message(topics, cross):
         parts.append("Похоже на темы: %s. Перед ответом прочитай %s, выбери до 3 скиллов, прочитай их SKILL.md и следуй им."
                      % (", ".join(topics), files))
     if cross:
-        parts.append("Сквозные скиллы: %s." % ", ".join(cross))
+        parts.append("По словам запроса подходят сквозные: %s." % ", ".join(cross))
+    if topics:
+        rules = "; ".join(r.get("short", "") for r in MAN.get("cross_cutting", []) if r.get("short"))
+        parts.append("Сквозные правила, проверь всегда: %s." % rules)
     parts.append("В ответе строка `Скиллы: a, b (ещё подходят: c)`. Если подсказка не по делу, проигнорируй её.")
     return " ".join(parts)
 
@@ -45,7 +49,8 @@ def main():
         prompt = json.loads(raw).get("prompt", "")
     except Exception:
         return
-    man = json.loads((HERE / "groups.json").read_text(encoding="utf-8"))
+    global MAN
+    man = MAN = json.loads((HERE / "groups.json").read_text(encoding="utf-8"))
     topics, cross = suggest(prompt, man)
     if not topics and not cross:
         return

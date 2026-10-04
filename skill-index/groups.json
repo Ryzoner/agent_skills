@@ -25,7 +25,8 @@
         "implement",
         "рефактор",
         "refactor"
-      ]
+      ],
+      "short": "код → engineering-principles, ponytail"
     },
     {
       "when": "any bug, failing test or unexpected behaviour",
@@ -49,7 +50,8 @@
         "\\b50[0234]\\b",
         "таймаут",
         "timeout"
-      ]
+      ],
+      "short": "сбой, ошибка, странное поведение → systematic-debugging"
     },
     {
       "when": "before saying a coding task is done",
@@ -61,7 +63,8 @@
         "проверь перед",
         "закончил",
         "\\bdone\\b"
-      ]
+      ],
+      "short": "перед «готово» → verification-loop"
     },
     {
       "when": "before commit or push",
@@ -74,7 +77,8 @@
         "\\bpush",
         "пуш",
         "pull request"
-      ]
+      ],
+      "short": "перед коммитом и пушем → pr-prep-secret-guard"
     },
     {
       "when": "about to run a destructive command (rm -rf, docker prune or rm -f, git push --force, reset --hard, terraform destroy, kubectl delete)",
@@ -93,7 +97,8 @@
         "force",
         "reset --hard",
         "\\bdrop\\b"
-      ]
+      ],
+      "short": "опасная команда (удаление, prune, destroy, force) → docker-destructive-guardrails, git-guardrails-claude-code"
     },
     {
       "when": "session is getting long or context is heavy",
@@ -105,7 +110,8 @@
         "контекст",
         "context",
         "compact"
-      ]
+      ],
+      "short": "длинная сессия → strategic-compact, context-budget"
     }
   ],
   "overrides": {
