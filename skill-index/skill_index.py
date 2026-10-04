@@ -213,9 +213,9 @@ def cmd_build(_):
             continue
         lines.append("- **%s** (%d): %s → `groups/%s.md`" % (gid, len(names), g["about"], gid))
         body = ["# %s" % gid, "", g["about"], "",
-                "Read `%s/<name>/SKILL.md` for the skills that fit. Registered skills are marked (reg)." % lib_ref, ""]
+                "Read `%s/<name>/SKILL.md` for the skills that fit (registered ones show their own path)." % lib_ref, ""]
         for n in sorted(names):
-            tag = " (reg)" if skills[n]["registered"] else ""
+            tag = " (registered, read `~/.agents/skills/%s/SKILL.md`)" % n if skills[n]["registered"] else ""
             body.append("- **%s**%s: %s" % (n, tag, over.get(n) or summary(skills[n]["desc"])))
         (IDX / "groups" / ("%s.md" % gid)).write_text("\n".join(body) + "\n", encoding="utf-8")
     if by_group["unsorted"]:

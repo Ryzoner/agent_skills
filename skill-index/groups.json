@@ -50,11 +50,12 @@
   ],
   "overrides": {
     "mod-any-game": "Entry point for modding any PC game: the whole loop, safety rules and engine playbooks. Start here, it routes to game-recon and the rest.",
-    "hyperframes": "Entry point for any video, animation or motion graphic from HTML. Read first, it selects the workflow."
+    "hyperframes": "Entry point for any video, animation or motion graphic from HTML. Read first, it selects the workflow.",
+    "share-field-notes": "Write a field note on how a game was modded (for the next agent) into the shared modding knowledge base and open its PR."
   },
   "groups": {
     "game-modding": {
-      "about": "Modding PC games, reverse engineering, game assets, sprites, publishing mods.",
+      "about": "Modding PC games, reverse engineering, game assets and sprites, publishing mods, field notes about a mod for the next agent.",
       "skills": [
         "mod-any-game",
         "game-recon",
@@ -67,8 +68,7 @@
         "share-field-notes",
         "gemini-assets",
         "sprite-forge",
-        "pixel-art",
-        "parametric-3d-printing"
+        "pixel-art"
       ]
     },
     "video-media": {
@@ -77,6 +77,12 @@
         "hyperframes*",
         "media-use",
         "motion-graphics"
+      ]
+    },
+    "cad-3d-printing": {
+      "about": "Designing physical parts for 3D printing: parametric CAD models (CadQuery), STL and 3MF.",
+      "skills": [
+        "parametric-3d-printing"
       ]
     },
     "devops-terraform": {
