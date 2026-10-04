@@ -15,7 +15,7 @@ def hits(text, patterns):
 
 
 def suggest(prompt, man):
-    text = prompt.lower()
+    text = re.sub(r"<(system-reminder|local-command-[a-z]+|command-[a-z]+)>.*?</\1>", " ", prompt, flags=re.S).lower()
     if any(re.search(p, text, re.I) for p in man.get("skip", [])):
         return [], []
     scored = sorted(((hits(text, g.get("keywords", [])), gid) for gid, g in man["groups"].items()), reverse=True)
