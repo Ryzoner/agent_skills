@@ -23,7 +23,8 @@ task -> AGENTS.md rule / skill-router -> INDEX.md (topics + cross-cutting rules)
 - `groups.json`: topics, which skills belong to each (glob patterns), cross-cutting rules, registered list,
   one-line overrides for important skills.
 - `skill_index.py`: `status`, `sync [--apply]`, `build`, `check`, `install`, `revert`. Stdlib only.
-- `skill-router/SKILL.md`: the one skill that stays registered.
+- `skill-router/SKILL.md`, `skill-manager/SKILL.md`: the bundled skills that stay registered.
+- `route_hook.py` (UserPromptSubmit) and `post_hook.py` (PostToolUse): Claude Code hooks, registered by `install`.
 
 ## Use
 ```bash
@@ -37,6 +38,15 @@ After `npx skills add ...` or `npx skills update`: `python ~/.agents/skill-index
 then `build`. A fresh copy of an existing skill replaces the library copy; the old one is kept in
 `~/.agents/skill-index/duplicates/`. Same-named copies in other scanned dirs go there too, never deleted.
 New skills without a group show up under `unsorted`: add them to `groups.json`, rebuild.
+
+## Adding, updating, removing skills
+- Ask the agent to install a skill: the registered `skill-manager` skill reviews the source, installs it with
+  `npx skills add`, files it into a topic and records it in the repo.
+- Safety net (Claude Code): a PostToolUse hook on Bash notices `skills add/update/remove`, moves new skills into
+  the library, rebuilds the index and reminds the agent about skills without a topic.
+- `python skill_index.py assign <skill>` shows the best-matching topics; `assign <skill> <topic>` files it;
+  `new-group <id> "<about>" "<kw1,kw2>"` adds a topic. Both write the repo manifest (path stored in
+  `~/.agents/skill-index/config.json` by `install`) and copy it to the device.
 
 ## Measured on the author's Mac (chars/4, approximate)
 | | before | after |

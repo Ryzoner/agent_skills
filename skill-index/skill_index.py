@@ -8,7 +8,9 @@ Commands:
   check           list skills with no group, duplicates, empty groups
   install         copy router skill, script and manifest to the device, then sync + build
   revert          undo the last applied sync
-  hook-on/off     register or remove the UserPromptSubmit routing hook in ~/.claude/settings.json
+  hook-on/off     register or remove the routing and post-install hooks in ~/.claude/settings.json
+  assign S [G]    show the best topics for skill S, or file it into topic G (writes the repo manifest)
+  new-group ...   add a topic: id, about, comma-separated keywords
 Stdlib only, Python 3.8+. SKILL_INDEX_HOME overrides the home dir (tests).
 """
 import argparse, fnmatch, json, os, re, shutil, sys, time
@@ -21,6 +23,8 @@ IDX = AGENTS / "skill-index"
 SCAN = [AGENTS / "skills", HOME / ".claude" / "skills", HOME / ".config" / "agents" / "skills"]
 HERE = Path(__file__).resolve().parent
 MANIFEST = HERE / "groups.json"
+BUNDLED = ("skill-router", "skill-manager")
+HOOKS = (("UserPromptSubmit", None, "route_hook.py"), ("PostToolUse", "Bash", "post_hook.py"))
 
 
 def manifest():
@@ -242,25 +246,31 @@ def cmd_check(_):
             print("empty on this device:", gid)
 
 
-def cmd_install(a):
-    man = manifest()
-    IDX.mkdir(parents=True, exist_ok=True)
-    for f in ("skill_index.py", "groups.json", "route_hook.py"):
-        shutil.copy2(HERE / f, IDX / f)
-    router = AGENTS / "skills" / "skill-router"
-    if router.exists():
-        shutil.rmtree(router)
-    shutil.copytree(HERE / "skill-router", router)
-    link = HOME / ".claude" / "skills" / "skill-router"
+def install_bundled(name):
+    dest = AGENTS / "skills" / name
+    if dest.exists():
+        shutil.rmtree(dest)
+    shutil.copytree(HERE / name, dest)
+    link = HOME / ".claude" / "skills" / name
     if (HOME / ".claude").is_dir():
         link.parent.mkdir(parents=True, exist_ok=True)
         if link.is_symlink() or link.exists():
             link.unlink() if link.is_symlink() else shutil.rmtree(link)
         try:
-            os.symlink(os.path.relpath(router, link.parent), link)
+            os.symlink(os.path.relpath(dest, link.parent), link)
         except OSError:
-            shutil.copytree(router, link)
-    print("router installed")
+            shutil.copytree(dest, link)
+
+
+def cmd_install(a):
+    IDX.mkdir(parents=True, exist_ok=True)
+    for f in ("skill_index.py", "groups.json", "route_hook.py", "post_hook.py"):
+        shutil.copy2(HERE / f, IDX / f)
+    if HERE != IDX:
+        (IDX / "config.json").write_text(json.dumps({"repo": str(HERE)}), encoding="utf-8")
+    for name in BUNDLED:
+        install_bundled(name)
+    print("installed:", ", ".join(BUNDLED))
     a.apply = True
     a.verbose = False
     cmd_sync(a)
@@ -268,31 +278,81 @@ def cmd_install(a):
     cmd_hook_on(a)
 
 
+def source_manifest_path():
+    cfg = IDX / "config.json"
+    if cfg.exists():
+        repo = Path(json.loads(cfg.read_text(encoding="utf-8")).get("repo", ""))
+        if (repo / "groups.json").exists():
+            return repo / "groups.json"
+    return MANIFEST
+
+
+def save_manifest(man):
+    text = json.dumps(man, indent=2, ensure_ascii=False) + "\n"
+    src = source_manifest_path()
+    src.write_text(text, encoding="utf-8")
+    if (IDX / "groups.json") != src:
+        IDX.mkdir(parents=True, exist_ok=True)
+        (IDX / "groups.json").write_text(text, encoding="utf-8")
+    print("manifest saved:", src)
+
+
+def cmd_assign(a):
+    man = json.loads(source_manifest_path().read_text(encoding="utf-8"))
+    skills = library_skills(man)
+    if a.skill not in skills:
+        sys.exit("no skill %r in the library (run sync --apply first)" % a.skill)
+    if not a.group:
+        text = (a.skill + " " + skills[a.skill]["desc"]).lower()
+        scored = sorted(((sum(1 for k in g.get("keywords", []) if re.search(k, text, re.I)), gid)
+                         for gid, g in man["groups"].items()), reverse=True)
+        print("current group:", group_of(a.skill, man) or "none (unsorted)")
+        print("best matches:", ", ".join("%s (%d)" % (gid, n) for n, gid in scored[:3] if n) or "none: create one with new-group")
+        return
+    if a.group not in man["groups"]:
+        sys.exit("no group %r; create it with new-group" % a.group)
+    if not match(a.skill, man["groups"][a.group]["skills"]):
+        man["groups"][a.group]["skills"].append(a.skill)
+        save_manifest(man)
+    cmd_build(a)
+
+
+def cmd_new_group(a):
+    man = json.loads(source_manifest_path().read_text(encoding="utf-8"))
+    if a.id in man["groups"]:
+        sys.exit("group %r exists" % a.id)
+    man["groups"][a.id] = {"about": a.about, "skills": [], "keywords": [k.strip() for k in a.keywords.split(",") if k.strip()]}
+    save_manifest(man)
+
+
 def settings_path():
     return HOME / ".claude" / "settings.json"
 
 
-def hook_command():
-    return '"%s" "%s"' % (sys.executable, IDX / "route_hook.py")
+def hook_command(script):
+    return '"%s" "%s"' % (sys.executable, IDX / script)
 
 
 def cmd_hook_on(_):
     sp = settings_path()
     if not sp.parent.is_dir():
-        print("no ~/.claude: hook skipped (not Claude Code)"); return
+        print("no ~/.claude: hooks skipped (not Claude Code)"); return
     data = json.loads(sp.read_text(encoding="utf-8")) if sp.exists() else {}
     if sp.exists():
         shutil.copy2(sp, sp.with_name("settings.json.bak-skill-index-hook"))
-    ups = data.setdefault("hooks", {}).setdefault("UserPromptSubmit", [])
-    for entry in ups:
-        for h in entry.get("hooks", []):
-            if "route_hook.py" in h.get("command", ""):
-                h["command"] = hook_command()
-                sp.write_text(json.dumps(data, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
-                print("hook already registered, command refreshed"); return
-    ups.append({"hooks": [{"type": "command", "command": hook_command()}]})
+    for event, matcher, script in HOOKS:
+        entries = data.setdefault("hooks", {}).setdefault(event, [])
+        mine = [h for e in entries for h in e.get("hooks", []) if script in h.get("command", "")]
+        if mine:
+            for h in mine:
+                h["command"] = hook_command(script)
+        else:
+            entry = {"hooks": [{"type": "command", "command": hook_command(script)}]}
+            if matcher:
+                entry["matcher"] = matcher
+            entries.append(entry)
     sp.write_text(json.dumps(data, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
-    print("hook registered in", sp)
+    print("hooks registered:", ", ".join(e for e, _, _ in HOOKS))
 
 
 def cmd_hook_off(_):
@@ -300,22 +360,30 @@ def cmd_hook_off(_):
     if not sp.exists():
         return
     data = json.loads(sp.read_text(encoding="utf-8"))
-    ups = data.get("hooks", {}).get("UserPromptSubmit", [])
-    keep = [e for e in ups if not any("route_hook.py" in h.get("command", "") for h in e.get("hooks", []))]
-    if len(keep) != len(ups):
+    for event, _, script in HOOKS:
+        entries = data.get("hooks", {}).get(event, [])
+        keep = [e for e in entries if not any(script in h.get("command", "") for h in e.get("hooks", []))]
         if keep:
-            data["hooks"]["UserPromptSubmit"] = keep
+            data["hooks"][event] = keep
         else:
-            data["hooks"].pop("UserPromptSubmit", None)
-        sp.write_text(json.dumps(data, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
-        print("hook removed")
-
+            data.get("hooks", {}).pop(event, None)
+    sp.write_text(json.dumps(data, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
+    print("hooks removed")
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
     for n, f in (("status", cmd_status), ("build", cmd_build), ("check", cmd_check), ("revert", cmd_revert), ("install", cmd_install), ("hook-on", cmd_hook_on), ("hook-off", cmd_hook_off)):
         sub.add_parser(n).set_defaults(fn=f)
+    p_as = sub.add_parser("assign")
+    p_as.add_argument("skill")
+    p_as.add_argument("group", nargs="?")
+    p_as.set_defaults(fn=cmd_assign)
+    p_ng = sub.add_parser("new-group")
+    p_ng.add_argument("id")
+    p_ng.add_argument("about")
+    p_ng.add_argument("keywords", help="comma-separated regex keywords")
+    p_ng.set_defaults(fn=cmd_new_group)
     s = sub.add_parser("sync")
     s.add_argument("--apply", action="store_true")
     s.add_argument("-v", "--verbose", action="store_true")

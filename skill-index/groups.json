@@ -5,7 +5,8 @@
     "caveman-stats",
     "handoff",
     "half-clone",
-    "quarter-clone"
+    "quarter-clone",
+    "skill-manager"
   ],
   "cross_cutting": [
     {
@@ -642,7 +643,8 @@
         "zed-skill-yaml-format",
         "subagent-creator-universal",
         "project-bootstrap",
-        "skills-discovery"
+        "skills-discovery",
+        "skill-manager"
       ],
       "keywords": [
         "скилл",
